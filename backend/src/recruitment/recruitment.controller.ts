@@ -12,6 +12,7 @@ import { memoryStorage } from 'multer';
 import { RecruitmentService } from './recruitment.service';
 import { AnalyzeCandidateDto } from './dto/analyze-candidate.dto';
 import { AgentsService } from '../agents/agents.service';
+import { ParseOutput } from '../utils/gpt';
 
 @Controller('api/recruitment')
 export class RecruitmentController {
@@ -98,12 +99,12 @@ export class RecruitmentController {
 
       const result = await this.agentsService.handleMessage({
         message: promptParts.join('\n'),
-        agent: 'recruitment',
+        agent: 'RECRUITMENT',
       });
 
       let parsedData: unknown;
       try {
-        parsedData = JSON.parse(result.reply);
+        parsedData = ParseOutput(result.reply);
       } catch {
         parsedData = result.reply;
       }

@@ -165,3 +165,70 @@ export async function ExecuteGPTPrompt({ prompt, gpt_options, request_id: _req, 
 
     return toOpenAIFormat(response);
 }
+
+// ── Output parsing ────────────────────────────────────────────────────────────
+
+export function ParseOutput<T = any>(ret: string): T | string | object {
+    if (typeof ret === 'string') {
+        if (ret.startsWith('```json') && ret.endsWith('```')) {
+            ret = ret.slice(7, -3);
+        }
+
+        ret = ret.trim();
+
+        if (ret.startsWith('{') && ret.endsWith('}')) {
+            try {
+                ret = JSON.parse(ret);
+            } catch {
+                ret = parseCustomJSON(ret);
+            }
+        }
+    }
+
+    return ret as T;
+}
+
+export function parseCustomJSON(jsonString: string): any {
+    // Fix lone backslash-newline (invalid JSON escape, e.g. LLM line-continuation style)
+    jsonString = jsonString.replace(/(?<!\\)\\\n/g, '\\n');
+
+    // Replace unescaped newlines within string values with a placeholder.
+    const placeholder = '__NEWLINE__';
+    const regex = /"(?:[^"\\]|\\.)*"/gs;
+    let modifiedJsonString = jsonString.replace(regex, (match) => {
+        let result = match.replace(/(?<!\\)\n/g, placeholder);
+        // Fix invalid JSON escape sequences produced by LLMs (e.g. \-)
+        result = result.replace(/\\([^"\\/bfnrtu])/g, '$1');
+        return result;
+    });
+
+    // Remove trailing commas before closing braces/brackets (common LLM output artifact)
+    modifiedJsonString = modifiedJsonString.replace(/,\s*([}\]])/g, '$1');
+
+    // Replace bare undefined values with null (undefined is not valid JSON).
+    modifiedJsonString = modifiedJsonString.replace(/"(?:[^"\\]|\\.)*"|:\s*undefined\b/g, (match) => {
+        if (match.startsWith('"')) return match;
+        return ': null';
+    });
+
+    let parsedObject: any;
+    try {
+        parsedObject = JSON.parse(modifiedJsonString);
+    } catch {
+        throw new Error('Invalid JSON string: ' + modifiedJsonString);
+    }
+
+    // Replace the placeholder back with actual newlines in string values
+    const traverseAndReplace = (obj: any) => {
+        for (const key in obj) {
+            if (typeof obj[key] === 'string') {
+                obj[key] = obj[key].replaceAll(new RegExp(placeholder, 'g'), '\n');
+            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                traverseAndReplace(obj[key]);
+            }
+        }
+    };
+
+    traverseAndReplace(parsedObject);
+    return parsedObject;
+}
