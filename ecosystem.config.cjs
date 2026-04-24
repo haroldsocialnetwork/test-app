@@ -6,7 +6,7 @@ module.exports = {
       script: 'dist/main.js',
       env: {
         NODE_ENV: 'production',
-        PORT: 3001,
+        PORT: 3998,
         DATABASE_URL: 'file:/home/user/webapp/backend/prisma/dev.db',
       },
       watch: false,

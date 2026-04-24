@@ -9,8 +9,8 @@ const path = require('path')
 
 const FRONTEND_DIST = path.join(__dirname, 'frontend', 'dist')
 const BACKEND_HOST = '127.0.0.1'
-const BACKEND_PORT = 3001
-const PORT = 3000
+const BACKEND_PORT = 3998
+const PORT = 3999
 
 const MIME = {
   '.html': 'text/html',
