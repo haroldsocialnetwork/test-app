@@ -50,26 +50,7 @@ export class RecruitmentService {
     }
   }
 
-  async analyze(
-    dto: AnalyzeCandidateDto,
-    resumeFile?: Express.Multer.File,
-  ): Promise<AnalysisResult> {
-    let resumeText: string;
-
-    if (resumeFile) {
-      resumeText = await this.extractPdfText(resumeFile.buffer);
-    } else if (dto.resumeText?.trim()) {
-      resumeText = dto.resumeText.trim();
-    } else {
-      throw new HttpException(
-        'Please provide a resume — either upload a PDF or paste resume text.',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const tone = dto.tone ?? 'friendly';
-    const jobDescription = dto.jobDescription.trim();
-
+  private buildPrompts(resumeText: string, jobDescription: string, tone: string) {
     const systemPrompt = `You are a recruitment AI assistant. Your task is to analyze candidate resumes against job descriptions.
 Always respond with valid JSON only — no markdown fences, no prose, no explanation outside the JSON object.
 Follow the exact schema provided in the user message.`;
@@ -95,36 +76,89 @@ Analyze the resume against the job description and return JSON with EXACTLY this
   "followUpMessage": "<personalized professional message to the candidate requesting the specific missing information, using ${tone} tone>"
 }`;
 
+    return { systemPrompt, userPrompt };
+  }
+
+  private async callClaude(resumeText: string, jobDescription: string, tone: string): Promise<AnalysisResult> {
+    const { systemPrompt, userPrompt } = this.buildPrompts(resumeText, jobDescription, tone);
+
+    const response = await Promise.race([
+      this.anthropic.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1500,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }],
+      }),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('TIMEOUT')), 28000),
+      ),
+    ]);
+
+    const rawText = response.content[0].type === 'text' ? response.content[0].text : '';
+    let parsed: AnalysisResult;
     try {
-      const response = await Promise.race([
-        this.anthropic.messages.create({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1500,
-          system: systemPrompt,
-          messages: [{ role: 'user', content: userPrompt }],
-        }),
-        new Promise<never>((_, reject) =>
-          setTimeout(
-            () => reject(new Error('TIMEOUT')),
-            28000,
-          ),
-        ),
-      ]);
+      parsed = JSON.parse(rawText) as AnalysisResult;
+    } catch {
+      throw new HttpException(
+        'An unexpected error occurred. Please try again.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    parsed.tone = tone;
+    return parsed;
+  }
 
-      const rawText =
-        response.content[0].type === 'text' ? response.content[0].text : '';
+  async analyzeApplication(opts: {
+    resumeText: string;
+    jobTitle: string;
+    jobDescription: string;
+  }): Promise<void> {
+    const { resumeText, jobTitle, jobDescription } = opts;
+    const tone = 'friendly';
+    try {
+      const parsed = await this.callClaude(resumeText, jobDescription, tone);
+      await this.prisma.candidateAnalysis.create({
+        data: {
+          candidateName: 'Applicant',
+          jobTitle,
+          jobDescription,
+          matchScore: parsed.matchScore,
+          strengths: JSON.stringify(parsed.strengths),
+          relevanceSummary: parsed.relevanceSummary,
+          missingSkills: JSON.stringify(parsed.missingInformation.missingSkills),
+          unclearExperience: JSON.stringify(parsed.missingInformation.unclearExperience),
+          qualificationGaps: JSON.stringify(parsed.missingInformation.qualificationGaps),
+          followUpMessage: parsed.followUpMessage,
+          tone,
+        },
+      });
+    } catch (err) {
+      console.error('[RecruitmentService] Failed to analyze application:', err);
+    }
+  }
 
-      let parsed: AnalysisResult;
-      try {
-        parsed = JSON.parse(rawText) as AnalysisResult;
-      } catch {
-        throw new HttpException(
-          'An unexpected error occurred. Please try again.',
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+  async analyze(
+    dto: AnalyzeCandidateDto,
+    resumeFile?: Express.Multer.File,
+  ): Promise<AnalysisResult> {
+    let resumeText: string;
 
-      parsed.tone = tone;
+    if (resumeFile) {
+      resumeText = await this.extractPdfText(resumeFile.buffer);
+    } else if (dto.resumeText?.trim()) {
+      resumeText = dto.resumeText.trim();
+    } else {
+      throw new HttpException(
+        'Please provide a resume — either upload a PDF or paste resume text.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const tone = dto.tone ?? 'friendly';
+    const jobDescription = dto.jobDescription.trim();
+
+    try {
+      const parsed = await this.callClaude(resumeText, jobDescription, tone);
 
       try {
         await this.prisma.candidateAnalysis.create({
