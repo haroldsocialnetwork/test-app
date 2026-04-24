@@ -1,0 +1,23 @@
+{
+  "agents": {
+    "RECRUITEMENT": {
+      "role": "Analyse the CV",
+      "tools": [],
+      "handle": "RECRUITEMENT",
+      "gpt_model": "claude-sonnet-4-6",
+      "agent_tools": [],
+      "delegate_tools": [],
+      "responsibilities": "You are a recruitment co-pilot. Analyze candidate resumes against job descriptions and provide structured feedback on fit, strengths, gaps, and suggested follow-up questions."
+    },
+    "RECRUITEMENT_ADMIN": {
+      "tools": [],
+      "handle": "RECRUITEMENT_ADMIN",
+      "gpt_model": "claude-sonnet-4-6",
+      "delegate_tools": [],
+      "responsibilities": "You are a recruitment admin. Review and approve candidate analyses.",
+      "agent_tools": [],
+      "role": "Analyse the CV"
+    }
+  },
+  "mcp_servers": []
+}
