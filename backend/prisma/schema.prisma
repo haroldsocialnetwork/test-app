@@ -19,7 +19,7 @@ model Message {
 
 model CandidateAnalysis {
   id                Int      @id @default(autoincrement())
-  candidateName     String   @default("Unknown")
+  candidateName     String   @default("Christabelle Fredda Thevandi")
   jobTitle          String   @default("Unknown Position")
   jobDescription    String
   matchScore        Int
@@ -42,10 +42,12 @@ model Job {
 }
 
 model Application {
-  id         Int      @id @default(autoincrement())
-  jobId      Int
-  job        Job      @relation(fields: [jobId], references: [id])
-  resumeText String?
-  resumePdf  Bytes?
-  createdAt  DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  jobId          Int
+  job            Job      @relation(fields: [jobId], references: [id])
+  resumeText     String?
+  resumePdf      Bytes?
+  applicantEmail String?
+  analyzed       Boolean  @default(false)
+  createdAt      DateTime @default(now())
 }

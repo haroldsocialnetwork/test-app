@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import Anthropic from '@anthropic-ai/sdk';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const pdfParse = require('pdf-parse') as (buffer: Buffer) => Promise<{ text: string }>;
 import { AnalyzeCandidateDto } from './dto/analyze-candidate.dto';
 import { PrismaService } from '../prisma.service';
+import { EmailService } from './email.service';
 
 export interface MissingInformation {
   missingSkills: string[];
@@ -18,13 +19,19 @@ export interface AnalysisResult {
   missingInformation: MissingInformation;
   followUpMessage: string;
   tone: string;
+  emailSent: boolean;
+  emailSentTo: string | null;
 }
 
 @Injectable()
 export class RecruitmentService {
   private readonly anthropic: Anthropic;
+  private readonly logger = new Logger(RecruitmentService.name);
 
-  constructor(private readonly prisma: PrismaService) {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly emailService: EmailService,
+  ) {
     this.anthropic = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY,
     });
@@ -144,7 +151,46 @@ Analyze the resume against the job description and return JSON with EXACTLY this
         console.error('[RecruitmentService] Failed to persist analysis:', err);
       }
 
-      return parsed;
+      // Auto-send email if missing info detected and applicant email is available
+      const hasMissingInfo =
+        parsed.missingInformation.missingSkills.length > 0 ||
+        parsed.missingInformation.unclearExperience.length > 0 ||
+        parsed.missingInformation.qualificationGaps.length > 0;
+
+      // Resolve email: prefer explicitly passed email, else look up from applicationId
+      let resolvedEmail = dto.applicantEmail?.trim() || null;
+      if (!resolvedEmail && dto.applicationId) {
+        try {
+          const app = await this.prisma.application.findUnique({ where: { id: dto.applicationId } });
+          resolvedEmail = app?.applicantEmail ?? null;
+        } catch {
+          this.logger.warn(`Could not find application ${dto.applicationId} for email lookup.`);
+        }
+      }
+
+      let emailSent = false;
+      if (hasMissingInfo && resolvedEmail) {
+        try {
+          await this.emailService.sendMissingInfoEmail({
+            toEmail: resolvedEmail,
+            candidateName: parsed.followUpMessage.match(/Dear ([^,]+),/)?.[1] ?? 'Applicant',
+            jobTitle: dto.jobDescription.slice(0, 60),
+            followUpMessage: parsed.followUpMessage,
+          });
+          emailSent = true;
+
+          // Mark application as analyzed if applicationId provided
+          if (dto.applicationId) {
+            await this.prisma.application.update({ where: { id: dto.applicationId }, data: { analyzed: true } });
+          }
+        } catch (emailErr) {
+          this.logger.error('Failed to send follow-up email:', emailErr);
+        }
+      } else if (dto.applicationId) {
+        await this.prisma.application.update({ where: { id: dto.applicationId }, data: { analyzed: true } });
+      }
+
+      return { ...parsed, emailSent, emailSentTo: emailSent ? resolvedEmail : null };
     } catch (err) {
       if (err instanceof HttpException) throw err;
       if (err instanceof Error && err.message === 'TIMEOUT') {

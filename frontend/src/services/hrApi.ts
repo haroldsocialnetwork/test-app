@@ -1,4 +1,4 @@
-import { DashboardStats, CandidatesPage, GroupedData, ChatRequest, ChatResponse } from '../types/hr';
+import { DashboardStats, CandidatesPage, GroupedData, ChatRequest, ChatResponse, PendingApplication } from '../types/hr';
 
 export async function fetchDashboard(): Promise<DashboardStats> {
   const res = await fetch('/api/hr/dashboard');
@@ -16,6 +16,13 @@ export async function fetchGrouped(): Promise<GroupedData> {
   const res = await fetch('/api/hr/grouped');
   if (!res.ok) throw new Error(`Grouped fetch failed: ${res.status}`);
   return res.json() as Promise<GroupedData>;
+}
+
+export async function fetchPendingApplications(): Promise<PendingApplication[]> {
+  const res = await fetch('/api/applications/pending');
+  if (!res.ok) throw new Error(`Pending applications fetch failed: ${res.status}`);
+  const data = await res.json();
+  return data.data as PendingApplication[];
 }
 
 export async function sendChatMessage(request: ChatRequest): Promise<ChatResponse> {

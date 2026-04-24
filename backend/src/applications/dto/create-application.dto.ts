@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsEmail, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateApplicationDto {
@@ -10,4 +10,8 @@ export class CreateApplicationDto {
   @IsOptional()
   @IsString()
   resumeText?: string;
+
+  @IsOptional()
+  @IsEmail()
+  applicantEmail?: string;
 }

@@ -1,4 +1,5 @@
-import { IsOptional, IsString, IsIn, MinLength } from 'class-validator';
+import { IsEmail, IsInt, IsOptional, IsString, IsIn, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class AnalyzeCandidateDto {
   @IsOptional()
@@ -12,4 +13,13 @@ export class AnalyzeCandidateDto {
   @IsOptional()
   @IsIn(['formal', 'friendly', 'concise'])
   tone?: 'formal' | 'friendly' | 'concise';
+
+  @IsOptional()
+  @IsEmail()
+  applicantEmail?: string;
+
+  @IsOptional()
+  @Transform(({ value }) => (value ? parseInt(value, 10) : undefined))
+  @IsInt()
+  applicationId?: number;
 }

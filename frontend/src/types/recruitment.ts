@@ -17,8 +17,17 @@ export interface AnalysisResult {
 
 export interface AnalyzeResponse {
   success: boolean;
-  data: AnalysisResult | null;
+  data: (AnalysisResult & { emailSent?: boolean; emailSentTo?: string }) | null;
   error: string | null;
+}
+
+export interface PendingApplication {
+  id: number;
+  jobId: number;
+  applicantEmail: string | null;
+  resumeText: string | null;
+  createdAt: string;
+  job: { title: string; description: string };
 }
 
 export type AppStatus = 'idle' | 'validating' | 'analyzing' | 'results' | 'error';

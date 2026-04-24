@@ -1,0 +1,57 @@
+CHRISTABELLE FREDDA THEVANDI
+HP: (+65) 84587320  Email: christabelle.ft@gmail.com
+
+EDUCATION
+National University of Singapore                                         Aug 2019 – May 2023 (Expected)
+Bachelor of Computing (Information Systems)
+  Specialization in Digital Product and Platform Management
+  Minor in Interactive Media Development
+  Certificate of Merit in ICT Solutioning Knowledge Area (2022)
+  Certificate of Merit in Business Innovation Knowledge Area (2023)
+  Interest course (ongoing): Interaction Design in AR/VR, Cloud Service and Infrastructure Management,
+  Digital Business and the Metaverse
+
+TECHNICAL SKILLS
+  Programming language: Java, Javascript, Python (basic)
+  Database and backend development: Java EE, Node JS, Express JS, MySQL, PostgreSQL, Firebase
+  Frontend development: HTML, CSS, React JS, Angular JS, Ionic, Figma
+
+WORK EXPERIENCE
+Singapore Airlines, Frontend Software Engineer Intern, Singapore         Jan 2022 - Jun 2022
+  Developed frontend web application of automated line scenario generator for flight training simulation with React JS.
+  Set up global Redux to centralize and improve state management of application.
+  Collaborated in an Agile environment with JIRA stories documentation and Scrum events.
+
+Outside Technologies, Software Engineer Intern, Singapore               May 2021 - Oct 2021
+  Built components and pages for frontend website development using React JS given supplied UI design.
+  Learned in-line CSS styling to create customized components.
+  Generated Firebase functions based on business logic to support new business functions.
+
+PROJECTS
+Connexa, IT Innovation Analyst, UI/UX Designer, Singapore               Aug 2022 - Nov 2022
+  Innovated an AI-enabled sport matchmaker to improve users' skill assessment accuracy.
+  Performed detailed market research, financial, business model, and roadmap planning for 5 months of development.
+  Designed overall theme and 60% of mobile application features with use of Figma.
+
+WeCare, Full-Stack Developer, Technical Lead, Singapore                  Aug 2021 - Nov 2021
+  Built a global distribution system for COVID-19 quarantine management involving 3 websites and 1 mobile application.
+  Created REST APIs to transfer and collate room data from mockup hotel system to application.
+  Maintained code and repository quality and assisted team-mates in technical problems as a technical lead.
+  Achieved 1st place in NUS STePs (IS4301 module).
+
+MeetUp VR, UI Designer, Singapore                                        Oct 2021
+  Designed an online office communication platform in virtual reality space using Figma.
+  Implemented 4 high fidelity prototypes using virtual and augmented reality elements.
+
+ASKookie, Fullstack Developer, Singapore                                 May 2020 - Aug 2020
+  Built a web application forum for NUS students and staff through Node JS, Express JS, and React JS.
+  Studied and developed database structure using MySQL.
+  Implemented social media features using React JS to improve social engagement.
+  Achieved Apollo (Distinction) Award in NUS Orbital.
+
+ORGANIZATION
+Chairperson, NUSSU Committee of Information and Technology, Singapore    Aug 2020 - Present
+  Lead and manage 6 teams with 75 members from different backgrounds and nationalities.
+  Organized and supervised 3 yearly flagship events for NUS society.
+  Served as Training team and Training Director for 2 years to provide 9 yearly workshops on Excel, Python,
+  Adobe Photoshop, Illustrator, and Premiere Pro with average rating 4.5.

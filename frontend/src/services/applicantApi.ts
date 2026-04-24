@@ -10,6 +10,7 @@ export async function submitApplication(
   jobId: number,
   resumeFile?: File,
   resumeText?: string,
+  applicantEmail?: string,
 ): Promise<SubmitApplicationResponse> {
   const formData = new FormData();
   formData.append('jobId', String(jobId));
@@ -19,6 +20,9 @@ export async function submitApplication(
   }
   if (resumeText) {
     formData.append('resumeText', resumeText);
+  }
+  if (applicantEmail) {
+    formData.append('applicantEmail', applicantEmail);
   }
 
   const response = await fetch('/api/applications', {

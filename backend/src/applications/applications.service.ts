@@ -13,6 +13,7 @@ export class ApplicationsService {
     jobId: number | string,
     resumeText?: string,
     resumePdfBuffer?: Buffer,
+    applicantEmail?: string,
   ) {
     const parsedJobId = typeof jobId === 'string' ? parseInt(jobId, 10) : jobId;
     if (!parsedJobId || isNaN(parsedJobId)) {
@@ -40,10 +41,66 @@ export class ApplicationsService {
         jobId: parsedJobId,
         resumeText: hasText ? resumeText!.trim() : null,
         resumePdf: hasPdf ? resumePdfBuffer : null,
+        applicantEmail: applicantEmail?.trim() || null,
+        analyzed: false,
       },
-      select: { id: true, jobId: true, createdAt: true },
+      include: { job: { select: { title: true, description: true } } },
     });
 
-    return application;
+    return {
+      id: application.id,
+      jobId: application.jobId,
+      jobTitle: application.job.title,
+      jobDescription: application.job.description,
+      applicantEmail: application.applicantEmail,
+      resumeText: hasText ? resumeText!.trim() : null,
+      resumePdf: hasPdf ? resumePdfBuffer : null,
+      createdAt: application.createdAt,
+    };
+  }
+
+  async getPendingApplications() {
+    const apps = await this.prisma.application.findMany({
+      where: { analyzed: false },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        jobId: true,
+        applicantEmail: true,
+        resumeText: true,
+        resumePdf: true,
+        createdAt: true,
+        analyzed: true,
+        job: { select: { title: true, description: true } },
+      },
+    });
+
+    return apps.map((a) => ({
+      id: a.id,
+      jobId: a.jobId,
+      jobTitle: a.job.title,
+      jobDescription: a.job.description,
+      applicantEmail: a.applicantEmail,
+      hasResumePdf: a.resumePdf !== null && (a.resumePdf as Buffer).length > 0,
+      hasResumeText: !!a.resumeText,
+      resumeText: a.resumeText,
+      createdAt: a.createdAt,
+    }));
+  }
+
+  async markAnalyzed(applicationId: number) {
+    await this.prisma.application.update({
+      where: { id: applicationId },
+      data: { analyzed: true },
+    });
+  }
+
+  async getApplicationById(id: number) {
+    const app = await this.prisma.application.findUnique({
+      where: { id },
+      include: { job: { select: { title: true, description: true } } },
+    });
+    if (!app) throw new NotFoundException(`Application ${id} not found.`);
+    return app;
   }
 }
