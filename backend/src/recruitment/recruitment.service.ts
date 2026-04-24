@@ -3,6 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const pdfParse = require('pdf-parse') as (buffer: Buffer) => Promise<{ text: string }>;
 import { AnalyzeCandidateDto } from './dto/analyze-candidate.dto';
+import { PrismaService } from '../prisma.service';
 
 export interface MissingInformation {
   missingSkills: string[];
@@ -23,7 +24,7 @@ export interface AnalysisResult {
 export class RecruitmentService {
   private readonly anthropic: Anthropic;
 
-  constructor() {
+  constructor(private readonly prisma: PrismaService) {
     this.anthropic = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY,
     });
@@ -124,6 +125,25 @@ Analyze the resume against the job description and return JSON with EXACTLY this
       }
 
       parsed.tone = tone;
+
+      try {
+        await this.prisma.candidateAnalysis.create({
+          data: {
+            jobDescription,
+            matchScore: parsed.matchScore,
+            strengths: JSON.stringify(parsed.strengths),
+            relevanceSummary: parsed.relevanceSummary,
+            missingSkills: JSON.stringify(parsed.missingInformation.missingSkills),
+            unclearExperience: JSON.stringify(parsed.missingInformation.unclearExperience),
+            qualificationGaps: JSON.stringify(parsed.missingInformation.qualificationGaps),
+            followUpMessage: parsed.followUpMessage,
+            tone,
+          },
+        });
+      } catch (err) {
+        console.error('[RecruitmentService] Failed to persist analysis:', err);
+      }
+
       return parsed;
     } catch (err) {
       if (err instanceof HttpException) throw err;
