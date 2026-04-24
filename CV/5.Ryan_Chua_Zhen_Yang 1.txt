@@ -1,0 +1,34 @@
+RYAN CHUA ZHEN YANG
+HP: (+65) 82345678  Email: ryan.czhenyang@gmail.com
+
+EDUCATION
+Singapore University of Technology and Design                            Sep 2019 – May 2023
+Bachelor of Engineering (Engineering Systems and Design)
+  Specialization in Digital and Intelligent Systems
+  SUTD Merit Award (2020, 2021)
+
+TECHNICAL SKILLS
+  Programming language: Python, Java, TypeScript, Kotlin
+  Mobile development: Android (Kotlin, Jetpack Compose), React Native, Flutter
+  Backend development: Spring Boot, Firebase, Node JS, MySQL, BigQuery
+  Tools: Android Studio, Xcode, Git, Figma, JIRA
+
+PROJECTS
+TransitPal, Lead Mobile Developer, Singapore                             Jan 2023 - Apr 2023
+  Built a commuter companion app aggregating MRT, bus, and taxi data with ETA predictions.
+  Used Flutter for cross-platform deployment and Firebase for real-time updates.
+  Reached 2,000+ downloads on the Play Store within 6 weeks.
+
+CampusEats, Full-Stack Developer, Singapore                              Aug 2021 - Nov 2021
+  Developed a food pre-ordering app for SUTD canteens reducing queue time by 50%.
+  Built the Android client in Kotlin and backend with Node JS and MySQL.
+  Piloted with 3 canteen vendors and 500+ student users during semester trial.
+
+CERTIFICATIONS
+  Google Associate Android Developer (2022)
+  Firebase Certified Developer (2023)
+
+ORGANIZATION
+President, SUTD Mobile Development Club, Singapore                       Sep 2020 - May 2023
+  Grew membership from 30 to 120 students over 3 years.
+  Organised annual internal app hackathon with 15 team submissions.

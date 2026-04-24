@@ -1,0 +1,43 @@
+SARAH NG YI XUAN
+HP: (+65) 96543210  Email: sarah.ngyx@gmail.com
+
+EDUCATION
+National University of Singapore                                         Aug 2020 – May 2024
+Bachelor of Computing (Computer Science)
+  Specialization in Human-Computer Interaction
+  Minor in Psychology
+  NUS Merit Scholarship recipient
+  Dean's List AY2021/2022, AY2022/2023
+
+TECHNICAL SKILLS
+  Programming language: JavaScript, TypeScript, Python, Swift
+  Frontend development: React JS, Next JS, React Native, Figma, Framer
+  Backend development: Node JS, GraphQL, Prisma, PostgreSQL, Supabase
+  Tools: Storybook, Cypress, Jest, Webpack, Vercel
+
+WORK EXPERIENCE
+Sea (Shopee), Frontend Engineer, Singapore                               Jul 2024 - Present
+  Leads development of the Shopee Live streaming feature used by 500K+ daily active users.
+  Reduced page load time by 35% through code splitting, lazy loading, and CDN optimisation.
+  Established a component design system used across 4 product teams.
+
+Grab, Frontend Intern, Singapore                                         May 2023 - Aug 2023
+  Built consumer-facing UI components for the GrabFood re-ordering flow in React JS.
+  Improved accessibility score from 62 to 94 (WCAG 2.1 AA compliance).
+  Wrote Cypress end-to-end tests increasing frontend test coverage from 40% to 78%.
+
+PROJECTS
+DesignSG, UI/UX Lead & Frontend Developer, Singapore                     Aug 2023 - Nov 2023
+  Created a community platform connecting Singapore designers with open-source projects.
+  Designed and implemented a full design system with 60+ reusable components in Storybook.
+  Reached 800+ registered users in the first 3 months post-launch.
+
+MindSpace, Full-Stack Developer, Singapore                               Jan 2022 - Apr 2022
+  Built a mental wellness journalling app with mood tracking and AI-generated insights.
+  Used Supabase for real-time sync and Next JS for server-side rendering.
+  Awarded Best Social Impact Project at NUS Hack&Roll 2022.
+
+ORGANIZATION
+Design Lead, NUS Hackers, Singapore                                      Aug 2021 - May 2024
+  Designed branding, marketing materials, and UI for 3 annual flagship hackathons.
+  Mentored 20+ students in frontend development and UI/UX design workshops.

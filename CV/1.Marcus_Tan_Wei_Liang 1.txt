@@ -1,0 +1,42 @@
+MARCUS TAN WEI LIANG
+HP: (+65) 98765432  Email: marcus.tanwl@gmail.com
+
+EDUCATION
+Nanyang Technological University                                         Aug 2018 – May 2022
+Bachelor of Engineering (Computer Science)
+  Specialization in Intelligent Systems
+  Minor in Business
+  Dean's List AY2020/2021
+
+TECHNICAL SKILLS
+  Programming language: Python, C++, Java, SQL
+  Machine Learning: TensorFlow, PyTorch, scikit-learn, Keras
+  Backend development: FastAPI, Django, Node JS, PostgreSQL, Redis
+  Cloud: AWS (EC2, S3, Lambda, SageMaker), Docker, Kubernetes
+
+WORK EXPERIENCE
+GovTech Singapore, Data Engineer, Singapore                              Jul 2022 - Present
+  Built and maintained ETL pipelines processing 2M+ records daily using Apache Airflow and AWS Glue.
+  Designed a real-time anomaly detection system reducing fraud incidents by 34%.
+  Collaborated with cross-functional teams to deliver a national healthcare data platform on time.
+
+Shopee, Data Science Intern, Singapore                                   May 2021 - Aug 2021
+  Built recommendation model improving click-through rate by 18% using collaborative filtering.
+  Automated data preprocessing workflows, reducing analyst prep time by 40%.
+  Presented findings to senior stakeholders during quarterly business reviews.
+
+PROJECTS
+SentimentSG, Lead Developer, Singapore                                   Jan 2022 - Apr 2022
+  Developed an NLP pipeline to analyse public sentiment on government policies from Twitter data.
+  Fine-tuned BERT model achieving 91% accuracy on a labelled dataset of 50,000 tweets.
+  Deployed as a REST API on AWS Lambda with automated retraining triggers.
+
+CampusNav, Full-Stack Developer, Singapore                               Aug 2020 - Nov 2020
+  Built an indoor navigation app for NTU campus using React Native and A* pathfinding algorithm.
+  Integrated with campus API for real-time room availability data.
+  Used by 1,200+ students within the first month of launch.
+
+ORGANIZATION
+Vice-President, NTU Data Science Club, Singapore                         Aug 2020 - Jul 2021
+  Organised 5 workshops on machine learning fundamentals with 200+ cumulative attendees.
+  Led a team of 12 members to compete in Singapore's national datathon, placing top 10.

@@ -1,0 +1,39 @@
+PRIYA SUBRAMANIAM
+HP: (+65) 87654321  Email: priya.subramaniam@gmail.com
+
+TECHNICAL SKILLS
+  Programming language: Java, Python, JavaScript, TypeScript
+  Frontend development: React JS, Vue JS, HTML, CSS, Tailwind CSS
+  Backend development: Spring Boot, Node JS, Express JS, MySQL, MongoDB
+  DevOps: Jenkins, GitHub Actions, Docker, Nginx
+
+WORK EXPERIENCE
+DBS Bank, Software Engineer, Singapore                                   Jul 2023 - Present
+  Developed microservices for the DBS digibank mobile backend serving 4M+ customers.
+  Reduced API response latency by 22% through query optimisation and Redis caching.
+  Led migration of legacy SOAP services to RESTful APIs as part of a modernisation initiative.
+
+Accenture, Software Engineer Intern, Singapore                           Jan 2022 - Jun 2022
+  Built an automated testing framework in Python reducing regression test time by 60%.
+  Assisted in developing a client-facing dashboard using Vue JS and Spring Boot.
+  Documented and maintained technical specifications for 3 enterprise modules.
+
+PROJECTS
+HealthTrackr, Full-Stack Developer, Singapore                            Aug 2022 - Nov 2022
+  Built a chronic illness management web app with React JS and Spring Boot.
+  Integrated with HealthHub API for real-time medication reminders and appointment tracking.
+  Achieved 2nd place in SMU App Challenge 2022.
+
+BudgetBuddy, Lead Developer, Singapore                                   Jan 2021 - Apr 2021
+  Developed a personal finance tracker with expense categorisation using ML classification.
+  Used React Native for cross-platform deployment on iOS and Android.
+  Featured in SMU School of Information Systems newsletter.
+
+CERTIFICATIONS
+  AWS Certified Solutions Architect – Associate (2023)
+  Oracle Certified Professional: Java SE 11 Developer (2022)
+
+ORGANIZATION
+Mentor, SMU Women in Tech, Singapore                                     Aug 2021 - May 2023
+  Mentored 8 junior students on career development and technical interview preparation.
+  Organised 2 annual panel events featuring women leaders in the Singapore tech industry.

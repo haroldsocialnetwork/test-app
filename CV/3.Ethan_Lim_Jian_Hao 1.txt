@@ -1,0 +1,39 @@
+ETHAN LIM JIAN HAO
+HP: (+65) 93456789  Email: ethan.limjh@gmail.com
+
+EDUCATION
+Singapore Institute of Technology                                        Apr 2020 – Apr 2024
+Bachelor of Engineering (Software Engineering) with Honours (Distinction)
+  Specialization in Cybersecurity
+  SIT Director's List (2022, 2023)
+
+WORK EXPERIENCE
+ST Engineering, Cybersecurity Analyst, Singapore                         May 2024 - Present
+  Conduct regular vulnerability assessments and penetration tests on client infrastructure.
+  Developed an internal SIEM dashboard reducing mean time to detect (MTTD) by 45%.
+  Authored security advisories and remediation playbooks for 12 enterprise clients.
+
+Ensign InfoSecurity, Security Intern, Singapore                          May 2022 - Aug 2022
+  Performed web application penetration testing using OWASP methodology.
+  Identified and reported 7 critical vulnerabilities across 3 client applications.
+  Assisted in writing detailed security assessment reports for C-suite stakeholders.
+
+PROJECTS
+SecureVault, Lead Developer, Singapore                                   Jan 2024 - Apr 2024
+  Built an end-to-end encrypted file storage system using AES-256 and RSA key exchange in Go.
+  Implemented zero-knowledge authentication avoiding plaintext password storage.
+  Open-sourced on GitHub with 300+ stars within 2 months.
+
+PhishGuard, Security Researcher, Singapore                               Aug 2023 - Nov 2023
+  Developed a browser extension detecting phishing URLs using ML with 96.3% accuracy.
+  Trained on a dataset of 200,000 URLs using XGBoost and deployed via Chrome Web Store.
+  Presented findings at SIT Undergraduate Research Symposium.
+
+CERTIFICATIONS
+  Offensive Security Certified Professional (OSCP) (2024)
+  CompTIA Security+ (2022)
+
+ORGANIZATION
+Captain, SIT Capture the Flag Team, Singapore                            Apr 2021 - Apr 2024
+  Led a team of 10 to compete in 15+ CTF competitions internationally.
+  Placed top 3 in STACK the Flags (GovTech) 2022 in the Open category.
