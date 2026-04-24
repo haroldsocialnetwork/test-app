@@ -17,6 +17,22 @@ model Message {
   createdAt DateTime @default(now())
 }
 
+model CandidateAnalysis {
+  id                Int      @id @default(autoincrement())
+  candidateName     String   @default("Unknown")
+  jobTitle          String   @default("Unknown Position")
+  jobDescription    String
+  matchScore        Int
+  strengths         String
+  relevanceSummary  String
+  missingSkills     String
+  unclearExperience String
+  qualificationGaps String
+  followUpMessage   String
+  tone              String
+  createdAt         DateTime @default(now())
+}
+
 model Job {
   id           Int           @id @default(autoincrement())
   title        String

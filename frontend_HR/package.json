@@ -1,0 +1,22 @@
+{
+  "name": "hr-dashboard",
+  "version": "1.0.0",
+  "description": "HR Manager Dashboard for AI Recruitment Co-Pilot",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 4000",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4000"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  }
+}
