@@ -4,10 +4,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { RecruitmentService } from '../recruitment/recruitment.service';
 
 @Injectable()
 export class ApplicationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly recruitment: RecruitmentService,
+  ) {}
 
   async createApplication(
     jobId: number | string,
@@ -44,6 +48,31 @@ export class ApplicationsService {
       select: { id: true, jobId: true, createdAt: true },
     });
 
+    const resolvedResumeText = hasText ? resumeText!.trim() : null;
+    this.triggerAnalysis(job, resolvedResumeText, hasPdf ? resumePdfBuffer! : null);
+
     return application;
+  }
+
+  private triggerAnalysis(
+    job: { title: string; description: string },
+    resumeText: string | null,
+    resumePdfBuffer: Buffer | null,
+  ): void {
+    const run = async () => {
+      let text = resumeText;
+      if (!text && resumePdfBuffer) {
+        text = await this.recruitment.extractPdfText(resumePdfBuffer);
+      }
+      if (!text) return;
+      await this.recruitment.analyzeApplication({
+        resumeText: text,
+        jobTitle: job.title,
+        jobDescription: job.description,
+      });
+    };
+    run().catch((err) =>
+      console.error('[ApplicationsService] Background analysis failed:', err),
+    );
   }
 }

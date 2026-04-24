@@ -8,5 +8,6 @@ import { AgentsModule } from '../agents/agents.module';
   imports: [AgentsModule],
   controllers: [RecruitmentController],
   providers: [RecruitmentService, PrismaService],
+  exports: [RecruitmentService],
 })
 export class RecruitmentModule {}
