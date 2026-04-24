@@ -23,6 +23,25 @@ export interface AnalyzeResponse {
 
 export type AppStatus = 'idle' | 'validating' | 'analyzing' | 'results' | 'error';
 
+export interface Job {
+  id: number;
+  title: string;
+  description: string;
+  createdAt: string;
+}
+
+export interface JobsResponse {
+  success: boolean;
+  data: Job[];
+  error: string | null;
+}
+
+export interface SubmitApplicationResponse {
+  success: boolean;
+  data: { id: number; jobId: number; createdAt: string } | null;
+  error: string | null;
+}
+
 export interface AppState {
   resumeText: string;
   resumeFile: File | null;

@@ -9,19 +9,43 @@
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - Resume and Job Description Analysis (Priority: P1)
+### User Story 1.1 - Applicant Job Application (Priority: P1)
 
-A recruiter has a candidate's resume and a job description. They upload or paste both into the tool, click "Analyze Candidate," and within seconds receive a structured report: a match score from 0–100, a list of the candidate's key strengths aligned to the role, and a relevance summary explaining the scoring rationale.
+**Route**: `/applicant`
 
-**Why this priority**: Core value proposition of the tool. Without this, nothing else is meaningful. Delivers immediate, measurable value — the recruiter knows within seconds whether to proceed with a candidate.
+An applicant navigates to `/applicant` and sees a list of open job titles and their descriptions. They browse the listings, select a role they want to apply for, and are presented with an application form where they can upload a PDF resume or paste their resume text. Once submitted, the application is sent to the HR queue for review. This page contains only the applicant-facing flow (browse jobs → apply → confirmation); no HR recruiter functionality is present on this route.
 
-**Independent Test**: Can be fully tested by uploading a sample resume and pasting a job description, clicking "Analyze Candidate," and verifying the match score, strengths list, and relevance summary are returned.
+**Why this priority**: This is the entry point of the entire workflow. Without a structured way for applicants to self-select a role and submit their resume, HR has no standardized input to analyze. Keeping the applicant view on its own dedicated route ensures a clean, role-specific submission experience free of recruiter tooling.
+
+**Independent Test**: Can be fully tested by opening the applicant screen, selecting a job from the list, uploading or pasting a resume, submitting the application, and verifying a confirmation is shown and the submission appears in the HR queue.
 
 **Acceptance Scenarios**:
 
-1. **Given** a recruiter has a PDF resume and a job description text, **When** they upload the resume and paste the job description and click "Analyze Candidate," **Then** the system returns a match score (0–100), a list of strengths aligned to the role, and a relevance summary within 30 seconds.
-2. **Given** a recruiter pastes resume text directly (no file upload), **When** they click "Analyze Candidate," **Then** the system processes the pasted text and returns the same structured results.
-3. **Given** a recruiter submits an empty job description, **When** they click "Analyze Candidate," **Then** the system displays a validation error requesting a job description before proceeding.
+1. **Given** an applicant navigates to `/applicant`, **When** the page loads, **Then** a list of available job titles and their descriptions is displayed — with no "HR Recruiter" toggle or link visible anywhere on the page.
+2. **Given** an applicant selects a job title, **When** they click "Apply," **Then** an application form is presented showing the selected job title, a PDF resume upload field, and a resume text paste field as an alternative.
+3. **Given** an applicant uploads a PDF resume and clicks "Submit Application," **When** the submission is processed, **Then** the application is added to the HR queue and the applicant sees a confirmation message.
+4. **Given** an applicant pastes resume text instead of uploading a file and clicks "Submit Application," **When** the submission is processed, **Then** the application is accepted and added to the HR queue with the same confirmation.
+5. **Given** an applicant clicks "Submit Application" without providing a resume (neither file nor text), **When** the validation runs, **Then** the system displays an error prompting the applicant to provide their resume before submitting.
+
+---
+
+### User Story 1.2 - HR Application Review and Analysis (Priority: P1)
+
+**Route**: `/hr`
+
+An HR recruiter navigates directly to `/hr` (a separate route from `/applicant`, not reachable via a toggle on the applicant page) and sees a list of incoming applications, each showing the applicant's name (if available), the job title they applied for, and the submission time. The recruiter selects an application and clicks "Analyze Candidate," triggering an immediate AI analysis of the submitted resume against the job description for that role. Within seconds they receive a structured report: a match score from 0–100, a list of the candidate's key strengths aligned to the role, and a relevance summary explaining the scoring rationale.
+
+**Why this priority**: This is the other half of the core value proposition. HR must be able to receive submissions and trigger analysis immediately — without needing to manually paste a job description — because the role context is already embedded in the submission from the applicant's selection.
+
+**Independent Test**: Can be fully tested by submitting a test application via the applicant screen, then navigating to `/hr`, selecting the new application, clicking "Analyze Candidate," and verifying the match score, strengths list, and relevance summary are returned within 30 seconds.
+
+**Acceptance Scenarios**:
+
+1. **Given** one or more applications have been submitted, **When** the HR view loads, **Then** all pending applications are listed showing applicant name (or placeholder), applied job title, and submission timestamp.
+2. **Given** an HR recruiter selects an application, **When** they click "Analyze Candidate," **Then** the system automatically uses the job description associated with the applied role — no manual job description entry is required.
+3. **Given** an HR recruiter clicks "Analyze Candidate" on a submitted application, **When** the analysis completes, **Then** the system returns a match score (0–100), a list of strengths aligned to the role, and a relevance summary within 30 seconds.
+4. **Given** the submitted resume was a PDF, **When** analysis is triggered, **Then** the system parses the PDF and produces the same structured results as a text-pasted resume.
+5. **Given** an HR recruiter views the analysis results, **When** the results are displayed, **Then** the matched job title and applicant identifier are shown alongside the results for clear context.
 
 ---
 
@@ -131,7 +155,7 @@ A recruiter with multiple candidates for the same role uploads several resumes a
 ## Assumptions
 
 - Resume PDFs submitted are text-selectable (not scanned images); image-only PDFs are out of scope for v1.
-- The tool is a single-page web application accessible via desktop browser; mobile optimization is not required for the MVP.
+- The tool is a web application accessible via desktop browser with two distinct routes: `/applicant` for job seekers and `/hr` for recruiters. There is no UI toggle to switch between them — each route is a self-contained experience. Mobile optimization is not required for the MVP.
 - No persistent storage of candidate data is required; analysis results exist only for the duration of the browser session.
 - Candidate name extraction from resume text is best-effort; a generic placeholder is used as fallback when a name cannot be identified.
 - The AI engine for analysis, matching, scoring, and message generation is available and accessible during demo and testing.
