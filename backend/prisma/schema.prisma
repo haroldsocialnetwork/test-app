@@ -32,3 +32,20 @@ model CandidateAnalysis {
   tone              String
   createdAt         DateTime @default(now())
 }
+
+model Job {
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String
+  createdAt    DateTime      @default(now())
+  applications Application[]
+}
+
+model Application {
+  id         Int      @id @default(autoincrement())
+  jobId      Int
+  job        Job      @relation(fields: [jobId], references: [id])
+  resumeText String?
+  resumePdf  Bytes?
+  createdAt  DateTime @default(now())
+}
